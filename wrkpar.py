@@ -2,8 +2,6 @@
 The wrkparser is a python program that basically automates the testing process by generating load
 and then parsing the output of the wrk command to saving the output in the file. 
 
-psuedo code
-
 wrk command
 wrk -t 10 -c 1-200 http://10.10.1.1:80/[64 - 16KB ]
 
@@ -62,10 +60,14 @@ usage_string = "python3 wrkpar -ip <ip_addr> -p <port> \n"\
                "Options:\n"\
                "-ds <different data size>\n"
                
+#print usage function                      
 def print_usage():
     print("Error!! Please check usage\n")
     print(usage_string); 
-
+    
+    
+#execute the command (string) adn return return value and the 
+# output string of the process
 def execute_cmd(command):
     if debug_exe_print:
         print("Running Command:\n", command)
@@ -83,10 +85,13 @@ def execute_cmd(command):
         print("Cmd timeout !!\n")
         return (-1, "Time Error!\n") 
 
+#construct wrk command
 def wrk_cmd_const(hostaddress):
     cmd = wrk_path + " " + "-t" + str(
             threads) + " " + "-c" + "200 "  + hostaddress
     return cmd
+
+#get bytes
 def get_bytes(size_str):
     x = re.search("^(\d+\.*\d*)(\w+)$", size_str)
     if x is not None:
@@ -109,7 +114,6 @@ def get_bytes(size_str):
         return size * 1024 ** 4
 
     return False
-
 
 def get_number(number_str):
     x = re.search("^(\d+\.*\d*)(\w*)$", number_str)
